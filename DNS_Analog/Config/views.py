@@ -71,3 +71,12 @@ class DeleteView(View):
 class DetailView(View):
     def get(self, request, id):
         return render(request, 'detail.html', context={'task': get_object_or_404(Task, id=id)})
+
+def searh_list(request):
+    q = request.GET.get('q', '')
+    find = TaskForms.objects.all()
+
+    if q:
+        find = find.filter(title__icontains = q)
+
+    return render(request, 'find.html', context={'find': find, 'q': q})
